@@ -1,0 +1,127 @@
+
+#userビュー/ showコピー
+<h2>User info</h2>
+
+<div class = "image">
+  <% if @user.image.attached? %>
+    <%= image_tag @user.image,size:"100x100"%>
+  <%else%>
+    <%= image_tag "no_image",size:"100x100"%>
+  <%end%>
+</div>
+  <p>Name:
+    <%= @user.name %></p>
+  </p>
+  
+  <p>introduction:
+    <p><%= @user.introduction %></p>
+  </p>
+  
+<%= link_to "edit",edit_user_path(@user.id) %>
+  
+<h2>New book</h2>
+<%= form_with model:@books do |f|%>
+<h4>Title</h4>
+<%= f.text_field :title%>
+<h4>Opinion</h4>
+<%= f.text_area :body%>
+<p></p>
+<%= f.submit "Create Book" %>
+<%end%>
+
+
+<!--部分テンプレートのため、paste.txtに保存-->
+
+<%= render 'userinfo', user: @user %>
+<%= render 'newbook', books: @books %>
+
+
+＃モデル内記述
+    def get_image
+    unless image.attached?
+      file_path = Rails.root.join('app/assets/images/no_image.jpg')
+      image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+    end
+    image
+  end
+
+
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+#appscss
+
+import '@fortawesome/fontawesome-free/js/all'
+#appjs
+
+#users/show.html.erb <レンダー使用のため一時保管
+
+<div class= "container px-5 px-sm-0">
+  <div class= "low">
+    <div class= "col-md-8 offset-md-1">
+      
+        <div class = right_tab>
+          <h2>Books</h2>
+          <table class= "table table-hover table-inverse">
+        
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Opinion</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <% @books.each do |book|%>
+              <tr>
+                <% if book.user.image.attached? %>
+                  <td><%= image_tag book.user.image,size:"100x100"%></td>
+                <%else%>
+                  <td><%= image_tag "no_image",size:"100x100"%></td>
+                <%end%>
+                <td><%=link_to book.title, book_path(book.user_id) %></td>
+                <td><%= book.body %></td>
+              <%end%>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+#books/index の投稿一覧のコピー
+
+<h2>Books</h2>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th >Opinion</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @books.each do |book|%>
+    <tr>
+      <% if book.user.image.attached? %>
+        <td><%= image_tag user.image,size:"100x100"%></td>
+        <%else%>
+        <td><%= image_tag "no_image",size:"100x100"%></td>
+      <%end%>
+      <td><%= link_to book.title,book_path(book.id)%></td>
+      <td><%= book.body%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+
+
+<p>
+                <td><%= image_tag @user.get_profile_image(100,100)%></br>
+                  <%= link_to @user.name, user_path(@user.id) %>
+                </td>
+              </p>

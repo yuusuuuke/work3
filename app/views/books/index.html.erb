@@ -1,0 +1,22 @@
+<!--ここから-->
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>error prohibited this obj from being saved:
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+<!--ここまでがrenderエラーメッセージ-->
+
+<div class = "container px-5 px-sm-0">
+  <div class = "row">
+    <div class = "col-md-3">
+      <%= render 'users/userinfo', user: @user %>
+      <%= render 'users/newbook', books: @book %>
+    </div>
+
+  <div class = "col-md-8 offset-md-1">
+    <%= render "users/book_info", books: @books, user: @user%>
+  </div>
+</div>
